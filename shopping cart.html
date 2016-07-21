@@ -1,0 +1,177 @@
+<html>
+<head>
+<script>
+//create array that will hold all ordered products
+    var shoppingCart = [];
+
+    //this function manipulates HTML and displays content of our shopping cart table
+    function displayShoppingCart(){
+        var orderedProductsTblBody=document.getElementById("orderedProductsTblBody");
+        //delete all previously added rows from ordered products table
+      while(orderedProductsTblBody.rows.length>0) {
+           orderedProductsTblBody.deleteRow(0);
+        }
+
+        //variable to hold total price of shopping cart
+        var cart_total_price=0;
+        var tax=0;
+        var total_with_tax=0;
+        //loop over array of objects
+        for(var product in shoppingCart){
+            //add new row
+            var row=orderedProductsTblBody.insertRow();
+            //create three cells for product properties
+            var cellName = row.insertCell(0);
+            var cellDescription = row.insertCell(1);
+            var cellPrice = row.insertCell(2);
+            row.insertCell(3);
+            cellPrice.align="right";
+            //fill cells with values from current product object of our array
+            cellName.innerHTML = shoppingCart[product].Name;
+            cellDescription.innerHTML = shoppingCart[product].Description;
+            cellPrice.innerHTML = shoppingCart[product].Price;
+            cart_total_price+=shoppingCart[product].Price;
+            tax=0.075*cart_total_price;
+            total_with_tax=tax+cart_total_price;
+        }
+        //fill total cost of our shopping cart
+        document.getElementById("cart_total").innerHTML=cart_total_price;
+        document.getElementById("grand_Total").innerHTML=total_with_tax;
+
+    }
+
+
+    function AddtoCart(name,description,price){
+       //Below JavaScript Object that will hold three properties:    Name,Description and Price
+       var singleProduct = {};
+       // product object with data
+       singleProduct.Name=name;
+       singleProduct.Description=description;
+       singleProduct.Price=price;
+       //newly created product to our shopping cart
+       shoppingCart.push(singleProduct);
+       //call display function to show on screen
+       displayShoppingCart();
+
+    }
+    //clear array and runs
+    function ClearCart(){
+      for(var product in shoppingCart){
+        document.getElementById("orderedProductsTblBody").deleteRow(0);
+      }
+      shoppingCart =[];
+      cart_total_price=0;
+      tax=0;
+      total_with_tax=0;
+      document.getElementById("cart_total").innerHTML=cart_total_price;
+      document.getElementById("grand_Total").innerHTML=total_with_tax;
+    }
+
+
+    //Add some products to our shopping cart via code or you can create a button with onclick event
+</script>
+</head>
+
+<body>
+
+
+
+<table cellpadding="4" cellspacing="4" border="1">
+    <tr>
+        <td valign="top">
+<!stat of products>
+            <table cellpadding="4" cellspacing="4" border="0">
+                <thead>
+                    <tr>
+                        <td colspan="2">
+                            Products for sale
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Table
+                        </td>
+                        <td>
+                            <input type="button" value="Add to cart" onclick="AddtoCart('Table','Big red table',50)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Door
+                        </td>
+                        <td>
+                            <input type="button" value="Add to cart" onclick="AddtoCart('Door','Yellow Door',150)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Video Game
+                        </td>
+                        <td>
+                            <input type="button" value="Add to cart" onclick="AddtoCart('PlayStation','PS4',299)"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+<!end of products>
+        </td>
+        <td valign="top">
+<!start of cart>
+            <table cellpadding="4" cellspacing="4" border="1" id="orderedProductsTbl">
+                <thead>
+<!iformation about items>
+                    <tr>
+                        <td>
+                            Name
+                        </td>
+                        <td>
+                            Description
+                        </td>
+                        <td>
+                            Price
+                        </td>
+                    </tr>
+                </thead>
+<!end of information about items>
+                <tbody id="orderedProductsTblBody">
+<!this is where we are puting the items in our cart>
+                </tbody>
+<!this table foot will show totals and option to clear the cart>
+                <tfoot>
+                    <tr>
+                        <td> Total: </td>
+                        <td colspan="3" align="right" id="cart_total">
+
+                        </td>
+                    </tr>
+                    <tr>
+                      <td>
+                         tax:
+                     </td>
+                      <td colspan="3" align="right" id="tax" >
+                          7.5%:
+                      </td>
+                    </tr>
+                    <tr>
+                        <td>Grand total:
+                        </td>
+                        <td colspan="3" align="right" id="grand_Total">
+                        </td>
+                    </tr>
+<!end of totals>
+<!clear cart option>
+                    <tr>
+                      <td>
+                        <input type="button" value="Clear Cart" onclick="ClearCart()"/>
+                      </td>
+                    </tr>
+<!end of clear cart option>
+                </tfoot>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
